@@ -1,0 +1,7 @@
+export const CLEAR_CACHE = 'CLEAR_CACHE'
+export const SET_SIZE = 'SET_SIZE'
+export const SET_CHUNK = 'SET_CHUNK'
+export const REQUEST_CHUNK = 'REQUEST_CHUNK'
+export const CLEAR_CHUNK_REQUESTS = 'CLEAR_CHUNK_REQUESTS'
+export const REQUEST_SIZE = 'REQUEST_SIZE'
+export const SET_IMAGE = 'SET_IMAGE'
