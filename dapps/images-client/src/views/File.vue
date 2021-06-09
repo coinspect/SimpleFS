@@ -1,14 +1,18 @@
 <template lang="pug">
-.image
-  pre {{ chainId }} {{ address }}
-  pre {{ cache.size }} {{ cache.chunks.lenght }}
-  img(:src="cache.image")
-  pre {{meta.description}}
+.file
+  template(v-if="cache.image")
+    img.pic(:src="cache.image")
+  ul.meta(v-if="meta")
+    li.title
+      span {{meta.title}}
+    li
+      span {{meta.description}}
+      small(v-if="meta.width && meta.height") &nbsp; ({{meta.width}} x {{meta.height}})
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
 export default {
-  name: 'pic',
+  name: 'file',
   props: ['chainId', 'address'],
   data () {
     return {
@@ -33,3 +37,12 @@ export default {
   }
 }
 </script>
+<style lang="stylus">
+  .file
+    min-height 100px
+  ul.meta
+    list-style none
+    text-align center
+    .title
+      font-weight bold
+</style>
