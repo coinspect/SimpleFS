@@ -24,3 +24,12 @@ export const mergeTypedArray = (arr, ArrType = Uint8Array) => {
     return v
   }, new ArrType(sum(sizes)))
 }
+
+export const getGithubUrl = (url) => {
+  const domain = 'github.com'
+  const base = `https://${domain}`
+  if (!url.includes(domain)) return
+  if (new RegExp(`^${base}`).test(url)) return url
+  const p = url.slice(url.indexOf(domain) + domain.length + 1, url.length)
+  if (p) return `${base}/${p}`
+}

@@ -1,7 +1,9 @@
 
 import images from './images'
-
+import { getGithubUrl } from './utils'
+const githubUrl = getGithubUrl(process.env.VUE_APP_REPO)
 export default {
+  githubUrl,
   networks: {
     1: {
       name: 'Ethereum Mainnet',

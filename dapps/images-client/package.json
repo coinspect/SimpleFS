@@ -3,8 +3,9 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "serve": "vue-cli-service serve",
-    "build": "vue-cli-service build",
+    "env": "VUE_APP_REPO=$(git config --get remote.origin.url) ",
+    "serve": "npm run env vue-cli-service serve",
+    "build": "npm run env vue-cli-service build",
     "test:unit": "vue-cli-service test:unit",
     "lint": "vue-cli-service lint",
     "deploy": "chmod +x ./deploy.sh && ./deploy.sh"
