@@ -31,6 +31,7 @@ export default {
   [SET_IMAGE] (state, { chainId, address, image, extension }) {
     Vue.set(state.cache[chainId][address], 'image', image)
     Vue.set(state.cache[chainId][address], 'extension', extension)
+    Vue.delete(state.cache[chainId][address], 'chunks')
     Vue.set(state.cache[chainId][address], 'chunks', [])
   }
 }

@@ -6,11 +6,6 @@ export const parseFileName = filename => {
   return { address, extension }
 }
 
-export const createImageURL = (typedArray, type) => {
-  if (!type) throw new Error('Missing image type')
-  return URL.createObjectURL(new Blob([typedArray.buffer], { type }))
-}
-
 export const parseImages = images => {
   for (const address in images) {
     const { name } = images[address]

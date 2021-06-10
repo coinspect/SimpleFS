@@ -1,6 +1,6 @@
 import Files from '../lib/Files'
 import { SET_SIZE, REQUEST_CHUNK, SET_CHUNK, SET_IMAGE, CLEAR_CHUNK_REQUESTS } from './mutationTypes'
-import { mergeTypedArray, createImageURL } from '../lib/utils'
+import { mergeTypedArray } from '../lib/utils'
 
 export const createClient = ({ getters }, chainId) => {
   const net = getters.getNetwork(chainId)
@@ -45,8 +45,7 @@ export const createAddress = async ({ commit, getters }, { address, chainId }) =
       const { chunks } = getCache()
       if (Object.keys(chunks).length !== size) return createImage()
       const arr = Object.keys(chunks).sort((a, b) => a - b).map(k => chunks[`${k}`])
-      const { extension } = getAddressData()
-      const image = createImageURL(mergeTypedArray(arr), `image/${extension}`)
+      const image = mergeTypedArray(arr)
       commit(SET_IMAGE, { chainId, address, image })
       return image
     }

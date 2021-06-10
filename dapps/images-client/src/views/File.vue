@@ -1,9 +1,7 @@
 <template lang="pug">
 .file(v-if="chainId && address")
-  h2 {{ address }}
-  h3 {{net.name}}
-  template(v-if="cache.image")
-    img.pic(:src="cache.image")
+  template(v-if="imageUrl")
+    img.pic(:src="imageUrl")
   template(v-else)
     spinner(v-if="!cache.size")
     file-chunks(:chainId="chainId", :address="address")
@@ -27,14 +25,19 @@ export default {
   },
   data () {
     return {
-      meta: {}
+      meta: {},
+      imageUrl: undefined
     }
   },
   async created () {
     const { createAddress, chainId, address } = this
     const { getImage, getAddressData } = await createAddress({ chainId, address })
     this.meta = getAddressData()
-    getImage()
+    await getImage()
+    this.createImage()
+  },
+  beforeDestroy () {
+    this.deleteImage()
   },
   computed: {
     net () {
@@ -48,7 +51,25 @@ export default {
   },
   methods: {
     ...mapGetters(['getCache', 'getNetwork']),
-    ...mapActions(['createAddress'])
+    ...mapActions(['createAddress']),
+
+    deleteImage () {
+      const { imageUrl } = this
+      if (imageUrl) URL.revokeObjectURL(imageUrl)
+      this.imageUrl = undefined
+    },
+
+    createImage () {
+      const { imageUrl } = this
+      if (imageUrl) return imageUrl
+      const { image } = this.cache
+      const { extension } = this.meta
+      if (image && extension) {
+        const type = `image/${extension}`
+        this.imageUrl = URL.createObjectURL(new Blob([image.buffer], { type }))
+      }
+      return this.imageUrl
+    }
   }
 }
 </script>
