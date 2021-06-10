@@ -6,14 +6,15 @@ export const createClient = ({ getters }, chainId) => {
   const net = getters.getNetwork(chainId)
   if (!net) throw new Error(`Unknown network chainId:${chainId} `)
   if (!net.node) throw new Error(`Missing node for chaninid:${chainId}`)
-  const client = Files(net.node)
-  return client
+  const { node } = net
+  const client = Files(node)
+  return { client, node }
 }
 
 export const createAddress = async ({ commit, getters }, { address, chainId }) => {
   let request = true
   try {
-    const client = createClient({ getters }, chainId)
+    const { client, node } = createClient({ getters }, chainId)
 
     const getCache = () => getters.getCache({ chainId, address })
 
@@ -48,7 +49,8 @@ export const createAddress = async ({ commit, getters }, { address, chainId }) =
       if (Object.keys(chunks).length !== size) return createImage()
       const arr = Object.keys(chunks).sort((a, b) => a - b).map(k => chunks[`${k}`])
       const image = mergeTypedArray(arr)
-      commit(SET_IMAGE, { chainId, address, image })
+      const { extension } = getAddressData()
+      commit(SET_IMAGE, { chainId, address, image, extension, node })
       return image
     }
 

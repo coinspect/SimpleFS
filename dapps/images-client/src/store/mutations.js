@@ -28,9 +28,11 @@ export default {
     })
     Vue.set(state, 'requestedChunks', requestedChunks)
   },
-  [SET_IMAGE] (state, { chainId, address, image, extension }) {
+  [SET_IMAGE] (state, { chainId, address, image, extension, node }) {
     Vue.set(state.cache[chainId][address], 'image', image)
     Vue.set(state.cache[chainId][address], 'extension', extension)
+    Vue.set(state.cache[chainId][address], 'created', Date.now())
+    Vue.set(state.cache[chainId][address], 'node', node)
     Vue.delete(state.cache[chainId][address], 'chunks')
     Vue.set(state.cache[chainId][address], 'chunks', [])
   }
