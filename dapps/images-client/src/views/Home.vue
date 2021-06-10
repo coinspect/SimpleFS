@@ -8,7 +8,7 @@
     h2 {{ net.name }}
     ul.images.plain
       li(v-for="img, address in net.images")
-        router-link(:to="`/image/${chainId}/${address}`")
+        router-link.img-box(:to="`/image/${chainId}/${address}`")
           address-title(:meta="img" :address="address")
 </template>
 <script>
@@ -26,10 +26,17 @@ export default {
 }
 </script>
 <style lang="stylus">
+@import '../style/variables.styl'
   .home
     display flex
     flex-flow column wrap
     align-items center
+  .img-box
+    border brand dashed 1px
+    display flex
+    padding .5em
+    &:hover
+      border hoverColor dashed 1px
   ul.images
     > li
       margin 1em
