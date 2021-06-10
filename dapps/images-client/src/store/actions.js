@@ -11,6 +11,7 @@ export const createClient = ({ getters }, chainId) => {
 }
 
 export const createAddress = async ({ commit, getters }, { address, chainId }) => {
+  let request = true
   try {
     const client = createClient({ getters }, chainId)
 
@@ -27,6 +28,7 @@ export const createAddress = async ({ commit, getters }, { address, chainId }) =
     const chunkIsRequested = chunk => getters.isChunkRequested({ chainId, address, chunk })
 
     const getChunk = async chunk => {
+      if (!request) throw new Error('Request canceled')
       if (chunkIsRequested(chunk)) return
       commit(REQUEST_CHUNK, { chainId, address, chunk })
       const data = await client.getChunk(address, chunk)
@@ -52,9 +54,16 @@ export const createAddress = async ({ commit, getters }, { address, chainId }) =
 
     const getImage = () => {
       const { image } = getCache()
-      return image || createImage()
+      return image || createImage().catch(err => {
+        if (request) throw err
+      })
     }
-    return { getImage, chunkIsRequested, getAddressData }
+
+    const cancelRequests = () => {
+      request = false
+    }
+
+    return { getImage, chunkIsRequested, getAddressData, cancelRequests }
   } catch (err) {
     return Promise.reject(err)
   }
