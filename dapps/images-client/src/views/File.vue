@@ -1,9 +1,21 @@
 <template lang="pug">
 .file(v-if="chainId && address")
+  h2
+    span(v-if="net.explorer")
+      a(
+        :href="`${net.explorer}/address/${address}`",
+        target="_blank",
+        title="show in explorer"
+      ) {{ address }}
+    span(v-else) {{ address }}
+  h3 {{ net.name }}
   template(v-if="imageUrl")
     img.pic(:src="imageUrl")
   template(v-else)
-    spinner(v-if="!cache.size")
+    .frame(v-if="!cache.size")
+      spinner
+      small
+        em Getting chunks size
     file-chunks(:chainId="chainId", :address="address")
   ul.meta(v-if="meta")
     li.title

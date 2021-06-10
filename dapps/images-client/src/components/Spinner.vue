@@ -94,5 +94,6 @@ export default {
     overflow hidden
     display flex
     fill none !important
-    stroke brand
+    stroke brandComp
+    margin 1em
 </style>

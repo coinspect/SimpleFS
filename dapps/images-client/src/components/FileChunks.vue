@@ -6,7 +6,7 @@
         :class="chunkCss(chunkNumber(c, r))",
         :id="`c-${chunkNumber(c, r)}`"
       )
-  .row
+  .row.frame
     ul.plain.small
       li Received {{chunksDone}} of {{ cache.size }} chunks
 </template>

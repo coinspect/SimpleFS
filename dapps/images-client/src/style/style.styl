@@ -1,4 +1,5 @@
 @import 'variables.styl'
+@import 'mixins.styl'
 
 .pic
   border white solid 10px
@@ -10,3 +11,8 @@
   
   .plain
     list-style none
+  
+  .frame
+    flex-centered()
+    flex-flow column wrap
+    margin .5em 0    
