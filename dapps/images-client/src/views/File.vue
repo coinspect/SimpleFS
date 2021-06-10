@@ -1,39 +1,35 @@
 <template lang="pug">
 .file(v-if="chainId && address")
-  h2
-    span(v-if="net.explorer")
-      a(
-        :href="`${net.explorer}/address/${address}`",
-        target="_blank",
-        title="show in explorer"
-      ) {{ address }}
-    span(v-else) {{ address }}
-  h3 {{ net.name }}
+  h2 {{meta.title}}
   template(v-if="imageUrl")
     img.pic(:src="imageUrl")
+    ul.plain.small.txt-center
+      li(v-if="imageDate")
+        strong Received on:&nbsp;
+        span {{ imageDate }}
+      li(v-if="cache.node")
+      strong from:&nbsp;
+      span {{ cache.node }}
   template(v-else)
     .frame(v-if="!cache.size")
       spinner
       small
         em Getting chunks size
     file-chunks(:chainId="chainId", :address="address")
-  ul.meta(v-if="meta")
-    li.title
-      span {{ meta.title }}
-    li
-      span {{ meta.description }}
-      small(v-if="meta.width && meta.height") &nbsp; ({{ meta.width }} x {{ meta.height }})
+  address-title(v-if="meta", :meta="meta", :address="address", :net="net")
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import Spinner from '../components/Spinner.vue'
-import FileChunks from '../components/FileChunks.vue'
+import Spinner from '@/components/Spinner.vue'
+import FileChunks from '@/components/FileChunks.vue'
+import AddressTitle from '@/components/AddressTitle.vue'
 export default {
   name: 'file',
   props: ['chainId', 'address'],
   components: {
     Spinner,
-    FileChunks
+    FileChunks,
+    AddressTitle
   },
   data () {
     return {
@@ -62,6 +58,10 @@ export default {
     cache () {
       const { getCache, address, chainId } = this
       return getCache()({ address, chainId })
+    },
+    imageDate () {
+      const { created } = this.cache
+      return created ? new Date(created) : undefined
     }
   },
   methods: {
@@ -95,11 +95,4 @@ export default {
   flex-flow column wrap
   align-items center
   margin 1em
-
-ul.meta
-  list-style none
-  text-align center
-
-  .title
-    font-weight bold
 </style>
