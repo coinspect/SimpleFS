@@ -1,32 +1,47 @@
+@import 'variables.styl'
+
 body, #app
   display flex
   flex-flow column
   align-items center
+  
 
 #app
   width 100%
+  min-height: 100vh
 
- #nav
-   min-height 3em
-   width 100%
-   display flex
-   flex-flow row nowrap
-   align-items center
-   justify-content flex-start
-   background-color navBg
-   width 100%
-   .title
-     display flex
-     font-weight bold
-     margin 0 2em
-   ul.menu
+#nav, #footer
+  min-height 3em
+  width 100%
+  display flex
+  flex-flow row nowrap
+  align-items center
+  justify-content flex-start
+  background-color navBg
+  width 100%
+
+  ul
+    margin 0.5em 2em
     list-style none
+    
+  ul.title
+    display flex
+    flex-flow column wrap
+    font-weight bold
+
+  ul.menu
     margin 0
     display flex
     flex-flow row nowrap
     margin 0 5em 0 auto
-    justify-self flex-end
-    
+
     li
-      margin 0 .5em
+      margin 0 0.5em
       font-weight bold
+
+.content
+  display flex
+  flex 1 0 auto
+
+#footer
+  flex-shrink 0
