@@ -38,18 +38,21 @@ export default {
   data () {
     return {
       meta: {},
-      imageUrl: undefined
+      imageUrl: undefined,
+      addr: undefined
     }
   },
   async created () {
     const { createAddress, chainId, address } = this
-    const { getImage, getAddressData } = await createAddress({ chainId, address })
+    this.addr = await createAddress({ chainId, address })
+    const { getImage, getAddressData } = this.addr
     this.meta = getAddressData()
     await getImage()
     this.createImage()
   },
   beforeDestroy () {
     this.deleteImage()
+    this.addr.cancelRequests()
   },
   computed: {
     net () {
