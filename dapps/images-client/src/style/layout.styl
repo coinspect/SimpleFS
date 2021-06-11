@@ -1,14 +1,14 @@
 @import 'variables.styl'
+@import 'mediaQuery.styl'
 
 body, #app
   display flex
   flex-flow column
   align-items center
-  
 
 #app
   width 100%
-  min-height: 100vh
+  min-height 100vh
 
 #nav, #footer
   min-height 3em
@@ -21,19 +21,18 @@ body, #app
   width 100%
 
   ul
-    margin 0.5em 2em
+    margin 0.5em
     list-style none
-    
+
   ul.title
     display flex
     flex-flow column wrap
     font-weight bold
 
   ul.menu
-    margin 0
     display flex
     flex-flow row nowrap
-    margin 0 5em 0 auto
+    margin 0 1em 0 auto
 
     li
       margin 0 0.5em
@@ -42,6 +41,38 @@ body, #app
 .content
   display flex
   flex 1 0 auto
+  margin 0 1em
 
 #footer
   flex-shrink 0
+  margin-top 1em
+
+// XSmall
+@media $media_xsmall
+  #nav, #footer
+    ul
+      margin 0.5em 2em
+
+// Small
+@media $media_small
+  #nav, #footer
+    ul.menu
+      margin 0 5em 0 auto
+
+  .content
+    margin 0 5em
+
+// Medium
+@media $media_medium
+  .content
+    margin 0 10em
+
+// Large
+@media $media_large
+  .content
+    margin 0 15em
+
+// XLarge
+@media $media_xlarge
+  .content
+    margin 0 20em
