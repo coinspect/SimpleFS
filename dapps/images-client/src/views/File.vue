@@ -3,7 +3,7 @@
   h2 {{meta.title}}
   template(v-if="imageUrl")
     img.pic(:src="imageUrl")
-    ul.plain.small.txt-center
+    ul.img-data
       li(v-if="imageDate")
         strong Received on:&nbsp;
         span {{ imageDate }}
@@ -91,8 +91,18 @@ export default {
 <style lang="stylus">
 .file
   min-height 100px
+  max-width 100%
   display flex
   flex-flow column wrap
   align-items center
-  margin 1em
+  .meta
+    margin 2em 0 0 0
+
+ .img-data
+   list-style none
+   text-align center
+   font-size 0.8em
+   margin 1em 0 0 0
+   color gray
+
 </style>
