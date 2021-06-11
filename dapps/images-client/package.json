@@ -4,10 +4,10 @@
   "private": true,
   "scripts": {
     "env": "VUE_APP_REPO=$(git config --get remote.origin.url) ",
-    "serve": "npm run env vue-cli-service serve",
-    "build": "npm run env vue-cli-service build",
-    "test:unit": "vue-cli-service test:unit",
-    "lint": "vue-cli-service lint",
+    "serve": "npm run env npx vue-cli-service serve",
+    "build": "npm run env npx vue-cli-service build",
+    "test:unit": "npx vue-cli-service test:unit",
+    "lint": "npx vue-cli-service lint",
     "deploy": "chmod +x ./deploy.sh && ./deploy.sh"
   },
   "dependencies": {
