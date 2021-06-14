@@ -10,7 +10,7 @@
       li(v-if="cache.node")
       strong from:&nbsp;
       span {{ cache.node }}
-  template(v-else)
+  .file-content(v-else)
     .frame(v-if="!cache.size")
       spinner
       small
@@ -92,13 +92,22 @@ export default {
 }
 </script>
 <style lang="stylus">
+@import '../style/mixins.styl'
+@import '../style/variables.styl'
+
 .file
-  min-height 100px
   max-width 100%
   display flex
   flex-flow column wrap
   align-items center
 
+  .file-content
+    flex-flow column wrap
+    flex-centered()
+    min-height 25em
+    min-width 25em
+    box-shadow boxShadow
+    border gray 1px solid
   .meta
     margin 2em 0 0 0
 
