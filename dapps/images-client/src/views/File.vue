@@ -1,6 +1,6 @@
 <template lang="pug">
 .file(v-if="chainId && address")
-  h2 {{meta.title}}
+  h2 {{ meta.title }}
   template(v-if="imageUrl")
     img.pic(:src="imageUrl")
     ul.img-data
@@ -17,19 +17,22 @@
         em Getting chunks size
     file-chunks(:chainId="chainId", :address="address")
   address-title(v-if="meta", :meta="meta", :address="address", :net="net")
+  log-ctrl(v-if="cache.log.length", :log="cache.log")
 </template>
 <script>
 import { mapActions, mapGetters } from 'vuex'
 import Spinner from '@/components/Spinner.vue'
 import FileChunks from '@/components/FileChunks.vue'
 import AddressTitle from '@/components/AddressTitle.vue'
+import LogCtrl from '@/components/LogCtrl.vue'
 export default {
   name: 'file',
   props: ['chainId', 'address'],
   components: {
     Spinner,
     FileChunks,
-    AddressTitle
+    AddressTitle,
+    LogCtrl
   },
   data () {
     return {
@@ -95,14 +98,14 @@ export default {
   display flex
   flex-flow column wrap
   align-items center
+
   .meta
     margin 2em 0 0 0
 
- .img-data
-   list-style none
-   text-align center
-   font-size 0.8em
-   margin 1em 0 0 0
-   color gray
-
+.img-data
+  list-style none
+  text-align center
+  font-size 0.8em
+  margin 1em 0 0 0
+  color gray
 </style>

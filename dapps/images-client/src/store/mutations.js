@@ -4,7 +4,8 @@ import {
   SET_CHUNK,
   REQUEST_CHUNK,
   CLEAR_CHUNK_REQUESTS,
-  SET_IMAGE
+  SET_IMAGE,
+  LOG
 } from './mutationTypes'
 import Vue from 'vue'
 import { createCacheObj } from './state'
@@ -16,11 +17,15 @@ export default {
   [SET_SIZE] (state, { chainId, address, size }) {
     Vue.set(state.cache[chainId][address], 'size', size)
   },
-  [SET_CHUNK] (state, { chainId, address, chunk, data }) {
+  [SET_CHUNK] (state, { chainId, address, chunk, data, requestKey }) {
     Vue.set(state.cache[chainId][address].chunks, `${chunk}`, data)
+    if (requestKey) {
+      state.requestedChunks[requestKey].end = Date.now()
+    }
   },
   [REQUEST_CHUNK] (state, { chainId, address, chunk }) {
-    state.requestedChunks.push({ chainId, address, chunk })
+    const start = Date.now()
+    return state.requestedChunks.push({ chainId, address, chunk, start })
   },
   [CLEAR_CHUNK_REQUESTS] (state, { chainId, address, chunk }) {
     const requestedChunks = state.requestedChunks.filter(v => {
@@ -35,5 +40,11 @@ export default {
     Vue.set(state.cache[chainId][address], 'node', node)
     Vue.delete(state.cache[chainId][address], 'chunks')
     Vue.set(state.cache[chainId][address], 'chunks', [])
+    // Vue.set(state.cache[chainId][address], 'log', [])
+  },
+  [LOG] (state, { chainId, address, message }) {
+    if (!message) return
+    const date = Date.now()
+    state.cache[chainId][address].log.push({ date, message })
   }
 }

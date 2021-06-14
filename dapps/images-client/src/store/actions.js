@@ -1,5 +1,5 @@
 import Files from '../lib/Files'
-import { SET_SIZE, REQUEST_CHUNK, SET_CHUNK, SET_IMAGE, CLEAR_CHUNK_REQUESTS } from './mutationTypes'
+import { SET_SIZE, REQUEST_CHUNK, SET_CHUNK, SET_IMAGE, CLEAR_CHUNK_REQUESTS, LOG } from './mutationTypes'
 import { mergeTypedArray } from '../lib/utils'
 
 export const createClient = ({ getters }, chainId) => {
@@ -21,7 +21,9 @@ export const createAddress = async ({ commit, getters }, { address, chainId }) =
     const getSize = async () => {
       let { size } = getCache()
       if (!size) {
+        commit(LOG, { chainId, address, message: `Requesting size from ${node}` })
         size = await client.getNoChunks(address)
+        commit(LOG, { chainId, address, message: `Received size of: ${address}, ${size} chunks` })
         commit(SET_SIZE, { chainId, address, size })
       }
       return getCache().size
@@ -31,9 +33,11 @@ export const createAddress = async ({ commit, getters }, { address, chainId }) =
     const getChunk = async chunk => {
       if (!request) throw new Error('Request canceled')
       if (chunkIsRequested(chunk)) return
-      commit(REQUEST_CHUNK, { chainId, address, chunk })
+      const requestKey = commit(REQUEST_CHUNK, { chainId, address, chunk })
+      commit(LOG, { chainId, address, message: `Requesting chunk ${chunk} from ${node}` })
       const data = await client.getChunk(address, chunk)
-      commit(SET_CHUNK, { chainId, address, chunk, data })
+      commit(LOG, { chainId, address, message: `Received chunk ${chunk} ${data.length} B` })
+      commit(SET_CHUNK, { chainId, address, chunk, data, requestKey })
       commit(CLEAR_CHUNK_REQUESTS, { chainId, address, chunk })
       return data
     }

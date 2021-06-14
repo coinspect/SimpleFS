@@ -5,7 +5,8 @@ export const createCacheObj = () => {
   return {
     chunks: {},
     size: undefined,
-    image: undefined
+    image: undefined,
+    log: []
   }
 }
 
