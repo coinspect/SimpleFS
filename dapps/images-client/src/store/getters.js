@@ -17,3 +17,14 @@ export const isChunkRequested = state => ({ chainId, address, chunk }) => {
   const { chunks } = getCache(state)({ chainId, address })
   return chunks[chunk] || getChunkRequests(state)({ chainId, address, chunk })
 }
+
+export const getActiveNetworks = state => {
+  const { networks } = state.config
+  return Object.entries(networks)
+    .filter(([key, net]) => Object.keys(net.images).length)
+    .reduce((v, a) => {
+      const [key, value] = a
+      v[key] = value
+      return v
+    }, {})
+}

@@ -1,13 +1,13 @@
 
 import images from './images'
-import { getGithubUrl } from './utils'
+import { getGithubUrl, parseURL } from './utils'
 const githubUrl = getGithubUrl(process.env.VUE_APP_REPO)
 export default {
   githubUrl,
   networks: {
     1: {
       name: 'Ethereum Mainnet',
-      node: '',
+      node: parseURL('https://mainnet.infura.io/v3/21c1e0ed1fb24871a0bffad1e4ae341f'),
       images: images.ethMainnet,
       explorer: 'https://etherscan.io'
     },

@@ -33,3 +33,17 @@ export const getGithubUrl = (url) => {
   const p = url.slice(url.indexOf(domain) + domain.length + 1, url.length)
   if (p) return `${base}/${p}`
 }
+
+export const parseURL = url => {
+  if (typeof url !== 'string') return url
+  let { port, protocol, host } = new URL(url)
+  if (!port && host) {
+    if (protocol === 'https:') port = 443
+    if (protocol === 'http:') port = 80
+    if (port) {
+      url = url.replace(`:${port}`, '')
+      url = url.replace(host, `${host}:${port}`)
+    }
+  }
+  return url
+}
