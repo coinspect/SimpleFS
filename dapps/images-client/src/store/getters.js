@@ -49,3 +49,7 @@ export const getChunksTime = state => ({ chainId, address }) => {
       return end ? v + (end - start) : v
     }, 0)
 }
+
+export const isSizeRequested = state => ({ chainId, address }) => {
+  state.requestedSizes.find(findChunk({ chainId, address }))
+}

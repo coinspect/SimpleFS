@@ -24,5 +24,6 @@ export const createCache = () => {
 export default {
   config,
   requestedChunks: [],
+  requestedSizes: [],
   cache: createCache()
 }

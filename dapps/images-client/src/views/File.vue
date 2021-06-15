@@ -11,7 +11,21 @@
       strong from:&nbsp;
       span {{ cache.node }}
   .file-content(v-else)
-    .frame(v-if="!cache.size")
+    template(v-if="!imageUrl && !cache.size")
+      img.pic.cached(
+        v-if="!hideCache",
+        v-show="undefined !== hideCache",
+        :src="`cache/${chainId}/${address}.${meta.extension}`",
+        @error="imgError",
+        @load="imgLoaded"
+      )
+      p(v-show="!hideCache")
+        em This is a cached image click
+        button.btn(@click="getImageFromBC") &nbsp;here&nbsp;
+        em to get it from &nbsp;
+          strong {{ net.name }}
+      //-button.btn(@click="getImageFromBC") {{ `Get image from ${net.name}` }}
+    .frame(v-if="isRequestingSize && !cache.size")
       spinner
       small
         em Getting chunks size
@@ -36,22 +50,18 @@ export default {
   },
   data () {
     return {
-      meta: {},
       imageUrl: undefined,
-      addr: undefined
+      addr: undefined,
+      hideCache: undefined
     }
   },
   async created () {
-    const { createAddress, chainId, address } = this
-    this.addr = await createAddress({ chainId, address })
-    const { getImage, getAddressData } = this.addr
-    this.meta = getAddressData()
-    await getImage()
-    this.createImage()
+    const { cache } = this
+    if (cache.size) this.getImageFromBC()
   },
   beforeDestroy () {
     this.deleteImage()
-    this.addr.cancelRequests()
+    if (this.addr) this.addr.cancelRequests()
   },
   computed: {
     net () {
@@ -65,12 +75,28 @@ export default {
     imageDate () {
       const { created } = this.cache
       return created ? new Date(created) : undefined
+    },
+    isRequestingSize () {
+      const { isSizeRequested, chainId, address } = this
+      return isSizeRequested()({ chainId, address })
+    },
+    meta () {
+      const { getAddressData, chainId, address } = this
+      return getAddressData()({ chainId, address })
     }
   },
   methods: {
-    ...mapGetters(['getCache', 'getNetwork']),
+    ...mapGetters(['getCache', 'getNetwork', 'isSizeRequested', 'getAddressData']),
     ...mapActions(['createAddress']),
 
+    async getImageFromBC () {
+      if (this.addr) return
+      const { createAddress, chainId, address } = this
+      this.addr = await createAddress({ chainId, address })
+      const { getImage } = this.addr
+      await getImage()
+      this.createImage()
+    },
     deleteImage () {
       const { imageUrl } = this
       if (imageUrl) URL.revokeObjectURL(imageUrl)
@@ -87,6 +113,13 @@ export default {
         this.imageUrl = URL.createObjectURL(new Blob([image.buffer], { type }))
       }
       return this.imageUrl
+    },
+    imgError () {
+      this.hideCache = true
+      this.getImageFromBC()
+    },
+    imgLoaded () {
+      this.hideCache = false
     }
   }
 }
@@ -108,6 +141,10 @@ export default {
     min-width 25em
     box-shadow boxShadow
     border gray 1px solid
+
+    p, img
+      margin 1em
+
   .meta
     margin 2em 0 0 0
 

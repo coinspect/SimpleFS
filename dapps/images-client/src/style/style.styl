@@ -1,37 +1,56 @@
 @import 'variables.styl'
 @import 'mixins.styl'
 
-
 #nav, #footer
   background-color navBg
   border none
 
 #nav
-   border-bottom navBorder
+  border-bottom navBorder
+
 #footer
-   border-top navBorder
+  border-top navBorder
 
 .brand
   font-size 1.625em
   textFx()
 
-
 .pic
   box-sizing border-box
   border white solid 10px
   box-shadow boxShadow
- 
+
 .small
   font-size 0.8em
-  
+
 ul.plain
   list-style none
   margin 1em 0 0 0
-  
+
 .frame
   flex-centered()
   flex-flow column wrap
-  margin .5em 0
- 
- .txt-center
-   text-align center
+  margin 0.5em 0
+
+.txt-center
+  text-align center
+
+.btn
+  cursor pointer
+  background info
+  color brand
+  font-size 1.125em
+  font-weight bold
+  border none
+  outline none
+  padding 0.25em .5em
+  margin 0.5em
+  border-radius 0.125em
+  border transparent solid 2px
+  box-shadow boxShadow
+
+  &:hover
+    border-color brand
+
+  &:focus
+    brackground red
