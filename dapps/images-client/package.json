@@ -8,7 +8,8 @@
     "build": "npm run env npx vue-cli-service build",
     "test:unit": "npx vue-cli-service test:unit",
     "lint": "npx vue-cli-service lint",
-    "deploy": "chmod +x ./deploy.sh && ./deploy.sh"
+    "deploy": "chmod +x ./deploy.sh && ./deploy.sh",
+    "cache": "npx babel-node --config-file ./.cachebabelrc  src/cacheImages.js"
   },
   "dependencies": {
     "core-js": "^3.6.5",
@@ -17,6 +18,9 @@
     "vuex": "^3.4.0"
   },
   "devDependencies": {
+    "@babel/cli": "^7.14.5",
+    "@babel/core": "^7.14.6",
+    "@babel/node": "^7.14.5",
     "@vue/cli-plugin-babel": "~4.5.0",
     "@vue/cli-plugin-eslint": "~4.5.0",
     "@vue/cli-plugin-router": "~4.5.0",

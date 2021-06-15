@@ -1,5 +1,5 @@
-import rskTestnetImages from '../../../imagesexpress/lib/imagesdata'
-import { parseImages } from './utils'
+import rskTestnetImages from '../../../imagesexpress/lib/imagesdata.js'
+import { parseImages } from './utils.js'
 
 const rskTestnet = parseImages(rskTestnetImages)
 const description = 'Watercolor painting practice'

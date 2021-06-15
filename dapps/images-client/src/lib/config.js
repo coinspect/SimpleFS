@@ -1,6 +1,6 @@
 
-import images from './images'
-import { getGithubUrl, parseURL } from './utils'
+import images from './images.js'
+import { getGithubUrl, parseURL } from './utils.js'
 const githubUrl = getGithubUrl(process.env.VUE_APP_REPO)
 export default {
   githubUrl,

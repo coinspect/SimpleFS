@@ -26,6 +26,7 @@ export const mergeTypedArray = (arr, ArrType = Uint8Array) => {
 }
 
 export const getGithubUrl = (url) => {
+  if (!url) return
   const domain = 'github.com'
   const base = `https://${domain}`
   if (!url.includes(domain)) return
