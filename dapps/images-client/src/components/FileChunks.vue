@@ -7,14 +7,26 @@
         :id="`c-${chunkNumber(c, r)}`"
       )
   .row.frame
-    ul.plain.small
-      li Received {{chunksDone}} of {{ cache.size }} chunks
+    ul.plain.small.txt-center
+      li Received {{ chunksDone }} of {{ cache.size }} chunks
+      li.spaced(v-if="progress")
+        progress-bar(:progress="progress", :width="150")
+      li(v-if="progress")
+        small {{ progress }}%
+      li.spaced(v-if="elapsed && totalTime")
+        small {{ elapsed | mToTime }} / {{ totalTime | mToTime }}
 </template>
 <script>
 import { mapGetters } from 'vuex'
+import ProgressBar from '@/components/ProgressBar.vue'
+import { mToSeconds, mToTime } from '@/filters/timeFilters.js'
 export default {
   name: 'file-chunks',
   props: ['chainId', 'address'],
+  components: {
+    ProgressBar
+  },
+  filters: { mToSeconds, mToTime },
   computed: {
     cache () {
       const { chainId, address, getCache } = this
@@ -26,10 +38,26 @@ export default {
     },
     chunksDone () {
       return Object.keys(this.cache.chunks).length
+    },
+    progress () {
+      const { chunksDone } = this
+      const { size } = this.cache
+      return (!size || !chunksDone) ? 0 : Math.floor(chunksDone * 100 / size)
+    },
+    elapsed () {
+      const { chainId, address, getChunksTime } = this
+      const time = getChunksTime()({ chainId, address })
+      return time
+    },
+    totalTime () {
+      const { elapsed, chunksDone, cache } = this
+      if (!elapsed || !chunksDone) return 0
+      const avg = elapsed / chunksDone
+      return Math.ceil(cache.size * avg)
     }
   },
   methods: {
-    ...mapGetters(['getCache', 'isChunkRequested']),
+    ...mapGetters(['getCache', 'isChunkRequested', 'getChunksTime']),
     chunkNumber (c, r) {
       return r - 1 + this.size * (c - 1)
     },
@@ -52,6 +80,9 @@ export default {
   flex-flow column wrap
   align-items center
   margin 1em
+
+  .spaced
+    margin 1em 0 0 0
 
 .row
   display flex

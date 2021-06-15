@@ -3,7 +3,7 @@ import {
   SET_SIZE,
   SET_CHUNK,
   REQUEST_CHUNK,
-  CLEAR_CHUNK_REQUESTS,
+  CLEAR_CHUNKS_REQUESTS,
   SET_IMAGE,
   LOG
 } from './mutationTypes'
@@ -19,17 +19,18 @@ export default {
   },
   [SET_CHUNK] (state, { chainId, address, chunk, data, requestKey }) {
     Vue.set(state.cache[chainId][address].chunks, `${chunk}`, data)
-    if (requestKey) {
-      state.requestedChunks[requestKey].end = Date.now()
+    if (undefined !== requestKey) {
+      const data = state.requestedChunks[requestKey]
+      if (data) data.end = Date.now()
     }
   },
   [REQUEST_CHUNK] (state, { chainId, address, chunk }) {
     const start = Date.now()
     return state.requestedChunks.push({ chainId, address, chunk, start })
   },
-  [CLEAR_CHUNK_REQUESTS] (state, { chainId, address, chunk }) {
+  [CLEAR_CHUNKS_REQUESTS] (state, { chainId, address }) {
     const requestedChunks = state.requestedChunks.filter(v => {
-      return v.chainId !== chainId || v.address !== address || v.chunk !== chunk
+      return v.chainId !== chainId || v.address !== address
     })
     Vue.set(state, 'requestedChunks', requestedChunks)
   },
