@@ -22,6 +22,7 @@ export default {
   resize vertical
   background black
   box-shadow boxShadow
+  max-width 90%
   .log-entry
     margin .5em 2em
 </style>

@@ -16,10 +16,11 @@ export default {
 }
 </script>
 <style lang="stylus">
-  .about
-    margin: 0 auto
-    .txt
-      margin 0 0 2em 0
-      font-size 1.125em
-      line-height 1.625em
+.about
+  margin 0 auto
+
+  .txt
+    margin 0 2em
+    font-size 1.125em
+    line-height 1.625em
 </style>

@@ -12,15 +12,15 @@ body, #app
 
 #nav, #footer
   min-height 3em
-  width 100%
   display flex
   flex-flow row nowrap
   align-items center
   justify-content flex-start
+  max-width 100%
   width 100%
 
   ul
-    margin 0.5em
+    margin 0.5em 2em
     list-style none
 
   ul.title
@@ -39,9 +39,13 @@ body, #app
 
 .content
   display flex
-  flex 1 0 auto
+  flex-direction column
   margin 0 1em
-
+  box-sizing content-box
+  flex 1 0 auto
+  max-width 100%
+  width auto
+  
 #footer
   justify-content space-between
   flex-shrink 0

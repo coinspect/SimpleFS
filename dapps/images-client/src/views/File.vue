@@ -133,16 +133,16 @@ export default {
   display flex
   flex-flow column wrap
   align-items center
-
   .file-content
+    display flex
+    box-sizing border-box
     flex-flow column wrap
-    flex-centered()
-    min-height 25em
-    min-width 25em
+    align-items center
+    max-width calc(100% - 4em)
     box-shadow boxShadow
     border gray 1px solid
 
-    p, img
+    p
       margin 1em
 
   .meta
@@ -154,4 +154,5 @@ export default {
   font-size 0.8em
   margin 1em 0 0 0
   color gray
+  max-width 90%
 </style>
