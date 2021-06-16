@@ -5,7 +5,7 @@
       ul.title
         li.brand ajlopez
         li
-          small paintings
+          small tribute dapp
     ul.menu
       li
         router-link(to="/") Home
@@ -16,9 +16,12 @@
   footer#footer
     ul.small
       li June 2021
-    ul.menu
+    ul
       li
-        a(v-if="githubRepo", :href="githubRepo") gitHub
+        router-link(to="/about") In memorial to Ángel Java López
+    ul
+      li
+        a(v-if="githubRepo", :href="githubRepo") GitHub
 </template>
 <script>
 export default {

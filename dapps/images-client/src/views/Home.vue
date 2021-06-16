@@ -1,6 +1,6 @@
 <template lang="pug">
 .home
-  h1 Angel Java Lopez Paintings
+  h1 ajlopez tribute dapp
   template(v-for="net, chainId in networks")
     h2 {{ net.name }}
     ul.images.plain
