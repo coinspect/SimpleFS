@@ -1,3 +1,10 @@
+
+> Tribute to [Ángel "Java" López](https://github.com/ajlopez/) 
+
+- [About](https://github.com/coinspect/SimpleFS/blob/master/dapps/images-client/About.md)
+
+- [Go to Tribute Dapp](https://coinspect.github.io/SimpleFS/)
+
 # SimpleFS
 
 Simple File Storage for Ethereum and RSK blockchains
