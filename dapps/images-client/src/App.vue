@@ -18,7 +18,7 @@
       li June 2021
     ul
       li
-        router-link(to="/about") In memorial to Ángel Java López
+        router-link(to="/about") In memory of Ángel Java López
     ul
       li
         a(v-if="githubRepo", :href="githubRepo") GitHub
